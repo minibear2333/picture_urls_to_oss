@@ -11,6 +11,8 @@
 1. 使用的是wordpress做博客
 2. 图片域名是一样的，后面以`"`结尾
 
+详细介绍见我的博客
+https://coding3min.com/365.html
 
 
 
