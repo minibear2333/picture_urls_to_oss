@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import oss2
+import os
 import requests
 import re
 import time
@@ -15,7 +16,7 @@ NameSpaceFile = "coding3min"
 # 本地放图片的文件夹
 img_dic_path = "imgs"  # where is downlaod imgs
 # 读取图片的目录，你应该有自己的域名的
-AliHost = "https://xxx.oss-accelerate.aliyuncs.com"
+AliHost = "https://coding3min.oss-accelerate.aliyuncs.com"
 # 测试数据，用来测试上传功能
 # img_dic = {"https://www.baidu.com/img/bd_logo1.png?where=super": {"img": "xxxxxx.png", "oss": "https://xxxxx"},
 #            "https://cdn.nlark.com/yuque/0/2019/png/358864/1565713692593-80b85b3c-a2cb-4716-839d-1b67ec576364.png"
@@ -94,8 +95,7 @@ def set_imgurl_from_file(url="https://cdn.nlark.com/yuque", is_sql=False, conten
             }
 
 
-if __name__ == "__main__":
-    file_name = "post_2020022401.sql"
+def run(file_name=""):
     f_obj = open(file_name, 'r+', encoding="utf-8")
     contents = f_obj.read()
 
@@ -124,3 +124,21 @@ if __name__ == "__main__":
             if ".webp" in ali_oss:
                 ali_oss = ali_oss + "?x-oss-process=image/format,jpg"
             alter(file=file_name, old_str=img_url, new_str=ali_oss)
+
+
+def filter_file_type(file_name):
+    file_types = [".md", ".sql"]
+    for t in file_types:
+        if file_name.endswith(t):
+            return True
+    return False
+
+
+if __name__ == "__main__":
+    path = "./scan"
+    files = os.listdir(path)
+    for filename in files:
+        full_file_name  = str.format("%s/%s" % (path, filename))
+        if filter_file_type(full_file_name):
+            print("%s 开始处理..." % full_file_name)
+            run(full_file_name)
